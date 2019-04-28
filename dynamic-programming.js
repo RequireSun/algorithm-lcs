@@ -33,21 +33,24 @@ module.exports = function (target, sample) {
 
     for (let i = 1, l = target.length + 1; i < l; ++i) {
         for (let j = 1, k = sample.length + 1; j < k; ++j) {
+            if (i === 1 && j === 4) {
+                console.log(matrix[i - 1][j], matrix[i][j - 1]);
+            }
             if (target[i - 1] === sample[j - 1]) {
                 matrix[i][j] = matrix[i - 1][j - 1] + 1;
                 direction[i][j] = LEFT_TOP;
             } else if (matrix[i - 1][j] > matrix[i][j - 1]) {
                 matrix[i][j] = matrix[i - 1][j];
-                direction[i][j] = LEFT;
+                direction[i][j] = TOP;
             } else {
                 matrix[i][j] = matrix[i][j - 1];
-                direction[i][j] = TOP;
+                direction[i][j] = LEFT;
             }
         }
     }
 
     // console.log(matrix);
-    // console.log(direction);
+    console.log(direction);
 
     for (let i = target.length, j = sample.length; i > 0;) {
         switch (direction[i][j]) {
@@ -59,12 +62,12 @@ module.exports = function (target, sample) {
             }
             case LEFT: {
                 result = `-${sample[j - 1]}${result}`;
-                --i;
+                --j;
                 break;
             }
             case TOP: {
                 result = `+${target[i - 1]}${result}`;
-                --j;
+                --i;
                 break;
             }
             case PADDING: {
